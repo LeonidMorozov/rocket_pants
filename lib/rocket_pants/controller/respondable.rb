@@ -121,6 +121,15 @@ module RocketPants
       render_json normalise_object(object, options), options
     end
 
+    # Renders a raw single object, without any wrapping etc.
+    # Suitable for nicer object handling.
+    # Also works with root option
+    def respond(object, options = {})
+      out = normalise_object(object, options)
+      out = {options[:root]=>out} unless options[:root].blank?
+      render_json out, options
+    end
+
     def respond_with_object_and_type(object, options, type, singular)
       pre_process_exposed_object object, type, singular
       options = options.reverse_merge(:compact => true) unless singular
